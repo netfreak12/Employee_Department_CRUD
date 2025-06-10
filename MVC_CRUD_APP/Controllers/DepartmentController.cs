@@ -71,6 +71,33 @@ namespace MVC_CRUD_APP.Controllers
             }
         }
 
+        // GET: /Department/Edit/
+        // Shows edit form for an existing department
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || id <= 0)
+                return NotFound();
+
+            try
+            {
+                var department = await db.Departments
+                    .FirstOrDefaultAsync(d => d.DeptId == id);
+
+                if (department == null)
+                    return NotFound();
+
+                return View(department);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use ILogger if available)
+                _logger.LogError(ex, "An error occurred while retrieving the department.");
+
+                // Optionally use a generic error model/view
+                return View("Error");
+            }
+        }
 
     }
 }
