@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MVC_CRUD_APP.Models.Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h2>Departments</h2>
+
+/* This is the index view for displaying a list of departments. 
+   It will show all departments and provide options to create, edit, or delete them. */
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.DeptId)</th>
+            <th>@Html.DisplayNameFor(model => model.DeptName)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DeptId)</td>
+                <td>@Html.DisplayFor(modelItem => item.DeptName)</td>
+                <td>
+                    @* Add Edit/Delete links later *@
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DeptId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.DeptName })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
