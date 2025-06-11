@@ -144,5 +144,36 @@ namespace MVC_CRUD_APP.Controllers
         {
             return await db.Departments.AnyAsync(d => d.DeptId == id);
         }
+
+        // GET: /Department/Details/
+        // Displays details of a specific department
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || id <= 0)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var department = await db.Departments
+                    .FirstOrDefaultAsync(d => d.DeptId == id);
+
+                if (department == null)
+                {
+                    return NotFound();
+                }
+
+                return View(department);
+            }
+            catch (Exception ex)
+            {
+                // Consider logging the exception here (e.g., using ILogger)
+                _logger.LogError(ex, "An error occurred while fetching department details.");
+
+                return View("Error");
+            }
+        }
     }
 }
