@@ -139,7 +139,7 @@ namespace MVC_CRUD_APP.Controllers
             }
         }
 
-        // Helper method to check if department exists
+        // Helper method to check if department exists or not
         private async Task<bool> DepartmentExists(int id)
         {
             return await db.Departments.AnyAsync(d => d.DeptId == id);
