@@ -206,5 +206,39 @@ namespace MVC_CRUD_APP.Controllers
                 return View("Error"); // Consider using a constant or nameof(Error)
             }
         }
+
+        // POST: /Department/Delete
+        // Handles deletion of a department after user confirms
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDept(int id)
+        {
+            try
+            {
+                // Fetch the department by ID
+                var department = await db.Departments.FirstOrDefaultAsync(d => d.DeptId == id);
+
+                if (department == null)
+                    return NotFound();
+
+                // Remove from DB and save changes
+                db.Departments.Remove(department);
+                await db.SaveChangesAsync();
+
+                // Redirect back to index
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                // Log exception (optional: use ILogger if available)
+                _logger.LogError(ex, "Error deleting department");
+
+                // Add error to TempData or log instead of ModelState if redirecting
+                TempData["ErrorMessage"] = "Unable to delete department. Try again.";
+
+                // Redirect back to Index where the error can be shown
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
