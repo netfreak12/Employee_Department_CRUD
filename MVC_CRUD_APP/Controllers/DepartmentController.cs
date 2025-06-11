@@ -175,5 +175,36 @@ namespace MVC_CRUD_APP.Controllers
                 return View("Error");
             }
         }
+
+        // GET: /Department/Delete/
+        // Shows confirmation page before deleting a department
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || id <= 0)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var department = await db.Departments
+                    .FirstOrDefaultAsync(d => d.DeptId == id);
+
+                if (department == null)
+                {
+                    return NotFound();
+                }
+
+                return View(department);
+            }
+            catch (Exception ex)
+            {
+                // Log exception (optional: use ILogger if available)
+                _logger.LogError(ex, "An error occurred while fetching department for deletion.");
+
+                return View("Error"); // Consider using a constant or nameof(Error)
+            }
+        }
     }
 }
