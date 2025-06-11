@@ -99,5 +99,50 @@ namespace MVC_CRUD_APP.Controllers
             }
         }
 
+        // POST: /Department/Edit
+        // Handles form submission to update an existing department
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Department department)
+        {
+            // Validate ID mismatch
+            if (id != department.DeptId)
+                return BadRequest("ID mismatch between route and model.");
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Departments.Update(department);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                // If ModelState is invalid, redisplay the form with validation errors
+                return View(department);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency conflict
+                if (!await DepartmentExists(department.DeptId)) // Check if the department exists
+                    return NotFound();
+                else
+                    // Log and re-throw if it's an unexpected concurrency issue
+                    // Consider logging ex here
+                    throw;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use ILogger if available)
+                _logger.LogError(ex, "An error occurred while retrieving the department.");
+                // Optional: Log the exception here
+                return View(department);
+            }
+        }
+
+        // Helper method to check if department exists
+        private async Task<bool> DepartmentExists(int id)
+        {
+            return await db.Departments.AnyAsync(d => d.DeptId == id);
+        }
     }
 }
