@@ -20,3 +20,16 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn i.bi {
+    margin-right: 5px;
+}
