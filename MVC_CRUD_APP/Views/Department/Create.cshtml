@@ -1,36 +1,43 @@
-﻿@model MVC_CRUD_APP.Models.Department
+﻿
+ @* Form to create a new department *@
+@model MVC_CRUD_APP.Models.Department
 
 @{
     ViewData["Title"] = "Create Department";
 }
 
-<h2>Create Department</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Create Department</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<hr />
- /* Form to create a new department * /
-<div class="row">
-    <div class="col-md-4">
-       
-        <form asp-action="Create">
-           
-            <div class="form-group">
-                <label asp-for="DeptName" class="control-label"></label>
-                <input asp-for="DeptName" class="form-control" />
-                <span asp-validation-for="DeptName" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="DeptName" class="form-label"></label>
+                            <input asp-for="DeptName" class="form-control" />
+                            <span asp-validation-for="DeptName" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="Index" class="btn btn-link">Back to List</a>
+                </div>
             </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <br />
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
